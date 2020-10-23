@@ -4,10 +4,7 @@ package com.hefeng.guli.service.edu.controller.admin;
 import com.hefeng.guli.service.edu.entity.Teacher;
 import com.hefeng.guli.service.edu.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +26,11 @@ public class TeacherController {
     public List<Teacher> listAll(){
         List<Teacher> list = teacherService.list();
         return list;
+    }
+
+    @DeleteMapping("remove/{id}")
+    public boolean removeById(@PathVariable String id){
+       return teacherService.removeById(id);
     }
 }
 
