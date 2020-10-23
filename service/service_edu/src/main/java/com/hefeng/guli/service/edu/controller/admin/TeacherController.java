@@ -1,8 +1,11 @@
 package com.hefeng.guli.service.edu.controller.admin;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hefeng.guli.common.base.result.R;
 import com.hefeng.guli.service.edu.entity.Teacher;
+import com.hefeng.guli.service.edu.entity.vo.TeacherQueryVo;
 import com.hefeng.guli.service.edu.service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,6 +47,20 @@ public class TeacherController {
         } else {
             return R.error().message("数据不存在");
         }
+    }
+
+    @ApiOperation("讲师分页列表")
+    @GetMapping("list/{page}/{limit}")
+    public R listPage(@ApiParam("当前页码") @PathVariable Long page,
+                      @ApiParam("每页记录数") @PathVariable Long limit,
+                      @ApiParam("讲师列表查询对象") TeacherQueryVo teacherQueryVo
+    ){
+        Page<Teacher> pageParam = new Page<>(page, limit);
+        IPage<Teacher> pageModel = teacherService.page(pageParam, null);
+        List<Teacher> records = pageModel.getRecords();
+        long total = pageModel.getTotal();
+
+        return R.ok().data("total", total).data("rows", records);
     }
 }
 
