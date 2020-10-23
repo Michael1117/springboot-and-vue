@@ -51,12 +51,12 @@ public class TeacherController {
 
     @ApiOperation("讲师分页列表")
     @GetMapping("list/{page}/{limit}")
-    public R listPage(@ApiParam("当前页码") @PathVariable Long page,
-                      @ApiParam("每页记录数") @PathVariable Long limit,
-                      @ApiParam("讲师列表查询对象") TeacherQueryVo teacherQueryVo
+    public R listPage(@ApiParam(value = "当前页码", required = true) @PathVariable Long page,
+                      @ApiParam(value = "每页记录数", required = true) @PathVariable Long limit,
+                      @ApiParam(value = "讲师列表查询对象", required = true) TeacherQueryVo teacherQueryVo
     ){
-        Page<Teacher> pageParam = new Page<>(page, limit);
-        IPage<Teacher> pageModel = teacherService.page(pageParam, null);
+        //Page<Teacher> pageParam = new Page<>(page, limit);
+        IPage<Teacher> pageModel = teacherService.selectPage(page, limit, teacherQueryVo);
         List<Teacher> records = pageModel.getRecords();
         long total = pageModel.getTotal();
 
